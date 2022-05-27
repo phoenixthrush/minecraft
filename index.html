@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="Phoenixthrush">
+    <meta name="description" content="Hey, I'm Phoenixthrush and I'm hosting my websites and projects on my GitHub account, check it out if you want. Maybe get in contact with me, peace out!">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.phoenixthrush.com/">
+    <meta property="og:title" content="Phoenixthrush's Website ❤️">
+    <meta property="og:description" content="Hey, I'm Phoenixthrush and I'm hosting my websites and projects on my GitHub account, check it out if you want. Maybe get in contact with me, peace out!">
+    <meta property="og:image" content="https://www.phoenixthrush.com/assets/favicon/android-chrome-512x512.png">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.phoenixthrush.com/">
+    <meta property="twitter:title" content="Phoenixthrush's Website ❤️">
+    <meta property="twitter:description" content="Hey, I'm Phoenixthrush and I'm hosting my websites and projects on my GitHub account, check it out if you want. Maybe get in contact with me, peace out!">
+    <meta property="twitter:image" content="https://www.phoenixthrush.com/assets/favicon/android-chrome-512x512.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.phoenixthrush.com/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.phoenixthrush.com/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://www.phoenixthrush.com/assets/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.phoenixthrush.com/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://www.phoenixthrush.com/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://www.phoenixthrush.com/assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="https://www.phoenixthrush.com/assets/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-TileImage" content="https://www.phoenixthrush.com/assets/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="https://www.phoenixthrush.com/assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#000000">
+
+    <style>
+        @import url(https://www.phoenixthrush.com/assets/webfonts/css/all-webfonts.css);
+        
+        html {
+            min-height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            height: calc(100vh - 8em);
+            padding: 4em;
+            color: rgba(255, 255, 255, .75);
+            font-family: 'Anonymous Pro', monospace;
+            background-color: rgb(20, 20, 20);
+        }
+        
+        .text {
+            position: relative;
+            top: 20%;
+            width: 24em;
+            margin: 0 auto;
+            font-size: 200%;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            transform: translateY(-50%);
+        }
+
+        .big-booba {
+            font-size: 225%;
+        }
+
+        .small-booba {
+            font-size: 65%;
+        }
+
+        .bottom-booba {
+            position: fixed;
+            left: 50%;
+            bottom: 0px;
+            transform: translate(-50%, -50%);
+            margin: 0 auto;
+            font-size: 150%;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://www.phoenixthrush.com/assets/js/jquery.min.js"></script>
+
+    <div class="text">
+        <p class="big-booba">Hewooo Pancake! ^-^</p>
+        <p>The Server is currently: <span style='color:""' id="status"></span></p>
+        <p>There are currently <span style='color:""' id="player-info"></span></p>
+        <p class="small-booba">(10 minute API cache)</p>
+    </div>
+
+    <div class="bottom-booba">
+        <p class="bottom-booba">Minecraft Server Address: <span style='color:aqua' id="host"></span></p>
+    </div>
+
+    <script>
+        $.getJSON('https://api.mcstatus.io/status/java/minecraft.phoenixthrush.com', function(data) {
+            if (data.response["version"].name == "§9◉ Sleeping") {
+                document.getElementById("status").textContent += "Sleeping";
+                document.getElementById('status').setAttribute("style", "color:red;");
+            } else {
+                document.getElementById("status").textContent += "Online";
+                document.getElementById('status').setAttribute("style", "color:green;");
+            }
+            
+            if (data.response["players"].online > 0) {
+                document.getElementById('player-info').setAttribute("style", "color:green;");
+            } else {
+                document.getElementById('player-info').setAttribute("style", "color:red;");
+            }
+
+            document.getElementById("player-info").textContent += data.response["players"].online;
+            document.getElementById("player-info").textContent += "/";
+            document.getElementById("player-info").textContent += data.response["players"].max;
+            document.getElementById("player-info").textContent += " people online.";
+
+            document.getElementById("host").textContent += data.host;
+
+            
+        });
+    </script>
+</body>
+
+</html>
