@@ -82,7 +82,7 @@
     </div>
 
     <script>
-        $.getJSON('https://api.mcstatus.io/status/java/minecraft.phoenixthrush.com', function(data) {
+        $.getJSON('https://api.mcstatus.io/status/java/mc.phoenixthrush.com', function(data) {
             if (data.response["version"].name == "§9◉ Sleeping") {
                 document.getElementById("status").textContent += "Sleeping";
                 document.getElementById('status').setAttribute("style", "color:red;");
