@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="author" content="Lulu">
-    <meta name="description" content="Hey, I'm Lulu. I host my websites and projects on GitHub. Feel free to check them out and get in touch!">
+    <meta name="description"
+        content="Hey, I'm Lulu. I host my websites and projects on GitHub. Feel free to check them out and get in touch!">
     <link rel="icon" href="https://www.phoenixthrush.com/minecraft/favicon.png" type="image/png">
 
     <style>
@@ -17,6 +18,7 @@
             font-family: Arial, Helvetica, sans-serif;
             background-color: #141414;
             color: rgba(255, 255, 255, 0.75);
+            overflow: hidden;
         }
 
         .container {
@@ -84,6 +86,21 @@
             font-size: 1.5rem;
             text-align: center;
             color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                justify-content: flex-start;
+                padding-top: 3em;
+            }
+
+            .main-message {
+                margin-top: 0;
+            }
+
+            .server-info {
+                display: none;
+            }
         }
     </style>
 </head>
