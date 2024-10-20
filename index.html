@@ -2,109 +2,114 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="author" content="Phoenixthrush">
-    <meta name="description" content="Hey, I'm Phoenixthrush and I'm hosting my websites and projects on my GitHub account, check it out if you want. Maybe get in contact with me, peace out!">
+    <meta name="author" content="Lulu">
+    <meta name="description"
+        content="Hey, I'm Lulu. I host my websites and projects on GitHub. Feel free to check them out and get in touch!">
     <link rel="icon" href="https://www.phoenixthrush.com/minecraft/favicon.png" type="image/png">
-    
+
+    <!-- Open Graph Metadata -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.phoenixthrush.com/">
-    <meta property="og:title" content="PhoenixCraft ❤️">
-    <meta property="og:description" content="Play Minecraft 24/7 on a survival Server!">
+    <meta property="og:title" content="PhoenixMC">
+    <meta property="og:description" content="Join our Minecraft survival server, live 24/7!">
     <meta property="og:image" content="https://www.phoenixthrush.com/minecraft/favicon.png">
 
+    <!-- Twitter Card Metadata -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.phoenixthrush.com/">
-    <meta property="twitter:title" content="PhoenixCraft ❤️">
-    <meta property="twitter:description" content="Play Minecraft 24/7 on a survival Server!">
+    <meta property="twitter:title" content="PhoenixMC">
+    <meta property="twitter:description" content="Join our Minecraft survival server, live 24/7!">
     <meta property="twitter:image" content="https://www.phoenixthrush.com/minecraft/favicon.png">
 
     <style>
-        @import url(https://www.phoenixthrush.com/assets/webfonts/css/all-webfonts.css);
-        
-        html {
-            min-height: 100%;
-            overflow: hidden;
-        }
-        
+        html,
         body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #141414;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             height: calc(100vh - 8em);
             padding: 4em;
-            color: rgba(255, 255, 255, .75);
-            font-family: 'Anonymous Pro', monospace;
-            background-color: rgb(20, 20, 20);
-        }
-        
-        .text {
-            position: relative;
-            top: 20%;
-            width: 24em;
-            margin: 0 auto;
-            font-size: 200%;
             text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            transform: translateY(-50%);
         }
 
-        .big-booba {
-            font-size: 225%;
+        .main-message {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
         }
 
-        .small-booba {
-            font-size: 65%;
+        .status-info {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .bottom-booba {
+        .cache-info {
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        .server-info {
             position: fixed;
+            bottom: 1em;
             left: 50%;
-            bottom: 0px;
-            transform: translate(-50%, -50%);
-            margin: 0 auto;
-            font-size: 150%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
             text-align: center;
+        }
+
+        .highlight {
+            color: aqua;
         }
     </style>
 </head>
 
 <body>
-    <script src="https://www.phoenixthrush.com/assets/js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
-    <div class="text">
-        <p class="big-booba">Hewooo Pancake! ^-^</p>
-        <p>The Server is currently: <span style='color:""' id="status"></span></p>
-        <p>There are currently <span style='color:""' id="player-info"></span></p>
-        <p class="small-booba">(10 minute API cache)</p>
+    <div class="container">
+        <p class="main-message">Hello Pancake! ^-^</p>
+        <p class="status-info">Server Status: <span id="status"></span></p>
+        <p class="status-info">Players Online: <span id="player-info"></span></p>
+        <p class="cache-info">(Updated every 10 minutes)</p>
     </div>
 
-    <div class="bottom-booba">
-        <p class="bottom-booba">Minecraft Server Address: <span style='color:aqua' id="host"></span></p>
+    <div class="server-info">
+        Minecraft Server (Java & Bedrock):<br> <span class="highlight" id="host"></span>
     </div>
 
     <script>
-        $.getJSON('https://api.mcstatus.io/status/java/mc.phoenixthrush.com', function(data) {
-            if (data.response["version"].name == "§9◉ Sleeping") {
-                document.getElementById("status").textContent += "Sleeping";
-                document.getElementById('status').setAttribute("style", "color:red;");
+        $.getJSON('https://api.mcstatus.io/v2/status/java/mc.phoenixthrush.com', function (data) {
+            const status = document.getElementById("status");
+            const playerInfo = document.getElementById("player-info");
+            const host = document.getElementById("host");
+
+            if (data.online) {
+                status.textContent = "Online";
+                status.style.color = "green";
             } else {
-                document.getElementById("status").textContent += "Online";
-                document.getElementById('status').setAttribute("style", "color:green;");
-            }
-            
-            if (data.response["players"].online > 0) {
-                document.getElementById('player-info').setAttribute("style", "color:green;");
-            } else {
-                document.getElementById('player-info').setAttribute("style", "color:red;");
+                status.textContent = "Offline";
+                status.style.color = "red";
             }
 
-            document.getElementById("player-info").textContent += data.response["players"].online;
-            document.getElementById("player-info").textContent += "/";
-            document.getElementById("player-info").textContent += data.response["players"].max;
-            document.getElementById("player-info").textContent += " people online.";
+            if (data.players.online > 0) {
+                playerInfo.style.color = "green";
+            } else {
+                playerInfo.style.color = "red";
+            }
 
-            document.getElementById("host").textContent += data.host;
-
-            
+            playerInfo.textContent = `${data.players.online}/${data.players.max} players online.`;
+            host.textContent = data.host;
         });
     </script>
 </body>
