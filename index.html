@@ -6,23 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="author" content="Lulu">
-    <meta name="description"
-        content="Hey, I'm Lulu. I host my websites and projects on GitHub. Feel free to check them out and get in touch!">
+    <meta name="description" content="Hey, I'm Lulu. I host my websites and projects on GitHub. Feel free to check them out and get in touch!">
     <link rel="icon" href="https://www.phoenixthrush.com/minecraft/favicon.png" type="image/png">
-
-    <!-- Open Graph Metadata -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.phoenixthrush.com/">
-    <meta property="og:title" content="PhoenixMC">
-    <meta property="og:description" content="Join our Minecraft survival server, live 24/7!">
-    <meta property="og:image" content="https://www.phoenixthrush.com/minecraft/favicon.png">
-
-    <!-- Twitter Card Metadata -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.phoenixthrush.com/">
-    <meta property="twitter:title" content="PhoenixMC">
-    <meta property="twitter:description" content="Join our Minecraft survival server, live 24/7!">
-    <meta property="twitter:image" content="https://www.phoenixthrush.com/minecraft/favicon.png">
 
     <style>
         html,
@@ -45,8 +30,9 @@
         }
 
         .main-message {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: #ffffff;
         }
 
         .status-info {
@@ -54,22 +40,50 @@
             margin-bottom: 1rem;
         }
 
-        .cache-info {
-            font-size: 0.75rem;
-            color: #ccc;
+        .highlight {
+            color: aqua;
+            font-weight: bold;
+        }
+
+        .additional-info {
+            font-size: 1rem;
+            margin-top: 1rem;
+            color: #ffffff;
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .additional-info p {
+            margin: 0.5rem 0;
         }
 
         .server-info {
+            display: flex;
+            align-items: stretch;
+            position: fixed;
+            top: 1em;
+            left: 1em;
+            text-align: left;
+        }
+
+        .server-icon {
+            width: auto;
+            height: 100%;
+            margin-right: 1rem;
+        }
+
+        .server-info-text {
+            font-size: 1.2rem;
+        }
+
+        .footer {
             position: fixed;
             bottom: 1em;
             left: 50%;
             transform: translateX(-50%);
             font-size: 1.5rem;
             text-align: center;
-        }
-
-        .highlight {
-            color: aqua;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -81,11 +95,24 @@
         <p class="main-message">Hello Pancake! ^-^</p>
         <p class="status-info">Server Status: <span id="status"></span></p>
         <p class="status-info">Players Online: <span id="player-info"></span></p>
-        <p class="cache-info">(Updated every 10 minutes)</p>
+        <div class="additional-info">
+            <div class="server-info">
+                <img class="server-icon" id="server-icon" src="" alt="Server Icon">
+                <div class="server-info-text">
+                    <p>Server Host: <span class="highlight" id="host"></span></p>
+                    <p>IP Address: <span class="highlight" id="ip"></span></p>
+                    <p>Port (Java): <span class="highlight" id="port"></span></p>
+                    <p>Port (Bedrock): <span class="highlight">19132</span></p>
+                    <p>Version: <span class="highlight" id="version"></span></p>
+                    <p>MOTD: <span class="highlight" id="motd"></span></p>
+                    <p>Online Players List: <span class="highlight" id="player-list"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="server-info">
-        Minecraft Server (Java & Bedrock):<br> <span class="highlight" id="host"></span>
+    <div class="footer">
+        Minecraft Server (Java & Bedrock):<br> <span class="highlight" id="host-display"></span>
     </div>
 
     <script>
@@ -93,6 +120,13 @@
             const status = document.getElementById("status");
             const playerInfo = document.getElementById("player-info");
             const host = document.getElementById("host");
+            const ip = document.getElementById("ip");
+            const port = document.getElementById("port");
+            const version = document.getElementById("version");
+            const motd = document.getElementById("motd");
+            const playerList = document.getElementById("player-list");
+            const hostDisplay = document.getElementById("host-display");
+            const serverIcon = document.getElementById("server-icon");
 
             if (data.online) {
                 status.textContent = "Online";
@@ -107,9 +141,19 @@
             } else {
                 playerInfo.style.color = "red";
             }
-
             playerInfo.textContent = `${data.players.online}/${data.players.max} players online.`;
+
             host.textContent = data.host;
+            ip.textContent = data.ip_address;
+            port.textContent = data.port;
+            version.textContent = data.version.name_clean;
+            motd.textContent = data.motd.clean;
+            hostDisplay.textContent = data.host;
+
+            serverIcon.src = data.icon;
+
+            const onlinePlayers = data.players.list.map(player => player.name_clean).join(', ');
+            playerList.textContent = onlinePlayers || "No players online.";
         });
     </script>
 </body>
